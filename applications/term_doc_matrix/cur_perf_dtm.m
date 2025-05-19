@@ -54,7 +54,7 @@ for i=1:a
 
     % SF
     tic;
-    [C,U,R, ~,~] = cur_sf(X, nc_nr(i), nc_nr(i), 20);
+    [C,U,R, ~,~] = sf_cur(X, nc_nr(i), nc_nr(i), 20);
     sf_t(i) = toc;
     sf_err(i) = norm(X-C*U*R,'fro')/X_fro;
     

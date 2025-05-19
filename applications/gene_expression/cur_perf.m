@@ -61,7 +61,7 @@ for i=1:a
 
     % SF
     tic;
-    [C,U,R, ~,~] = cur_sf(X, nc_nr(i), nc_nr(i), 20);
+    [C,U,R, ~,~] = sf_cur(X, nc_nr(i), nc_nr(i), 20);
     sf_t(i) = toc;
     sf_err(i) = norm(X-C*U*R,'fro')/X_fro;
     
@@ -157,22 +157,22 @@ for i=1:5
 
     if i==1
         % SF 
-        [~,~,~, cidx,~] = sf_cur(X, 15, 50, 20);
+        [~,~,~, cidx,~] = sf_cur(X, 15, 15, 20);
         disp('SF')
         f = "sf";
     elseif i==2
         % LS-D - highest leverage scores
-        [~,~,~, cidx,~] = ls_cur(X, 2, 15, 50, false);
+        [~,~,~, cidx,~] = ls_cur(X, 2, 15, 15, false);
         disp('LS')
         f = "ls";
     elseif i==3
         % DEIM
-        [~,~,~, cidx,~] = deim_cur(X, 50);
+        [~,~,~, cidx,~] = deim_cur(X, 15);
         disp('DEIM')
         f = "deim";
     elseif i==4
         % QR 
-        [~,~,~, cidx,~] = qr_cur(X, 15, 50);
+        [~,~,~, cidx,~] = qr_cur(X, 15, 15);
         disp('QR')
         f = "qr";
     else % i = 5
@@ -181,8 +181,8 @@ for i=1:5
         P=U*S;
         C = corr(X,P);
 
-        [VAL, IDX] = maxk(C,50,'ComparisonMethod','abs');
-        [~,idx] = maxk(VAL(:),50,'ComparisonMethod','abs');
+        [VAL, IDX] = maxk(C,15,'ComparisonMethod','abs');
+        [~,idx] = maxk(VAL(:),15,'ComparisonMethod','abs');
         cidx = IDX(idx);
         disp('SVD')
         f = "svd";
@@ -310,3 +310,5 @@ T2 =  array2table([num_probes', round(sf_diffstd,2), ...
             "QR-std", "SVD-std"]);
 disp(T2)
 writetable(T2, "probe_sel_std.txt", 'Delimiter', '|');
+
+num_probes' - sf_ls_overlap
